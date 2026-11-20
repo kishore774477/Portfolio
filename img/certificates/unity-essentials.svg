@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="bg_unit" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#222c37"/>
+      <stop offset="100%" stop-color="#11161d"/>
+    </linearGradient>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg_unit)"/>
+  <rect width="800" height="600" fill="url(#grid)"/>
+  
+  <rect x="30" y="30" width="740" height="540" rx="20" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+  
+  <g transform="translate(50, 45)">
+    <rect x="0" y="0" width="180" height="32" rx="16" fill="rgba(255,255,255,0.12)"/>
+    <text x="90" y="21" font-family="'IBM Plex Mono', monospace, sans-serif" font-size="11" font-weight="600" fill="#00d68f" text-anchor="middle" letter-spacing="1.5">UNITY CERTIFIED</text>
+  </g>
+  
+  <g transform="translate(60, 40)">
+    <path d="M340 210l45 26v52l-45 26-45-26v-52l45-26zm0 18l-30 17v34l30 17 30-17v-34l-30-17z" fill="#ffffff"/><circle cx="340" cy="253" r="10" fill="#00d68f"/>
+  </g>
+  
+  <text x="400" y="375" font-family="'Sora', 'DM Sans', sans-serif" font-size="34" font-weight="700" fill="#ffffff" text-anchor="middle">Unity Essentials Pathway</text>
+  <text x="400" y="415" font-family="'DM Sans', sans-serif" font-size="18" font-weight="400" fill="rgba(255,255,255,0.78)" text-anchor="middle">Real-Time 3D, Physics &amp; C# Logic</text>
+  
+  <line x1="280" y1="445" x2="520" y2="445" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  
+  <text x="400" y="480" font-family="'IBM Plex Mono', monospace, sans-serif" font-size="14" font-weight="500" fill="#ffffff" text-anchor="middle" letter-spacing="2">KISHORE KUMAR S</text>
+  <text x="400" y="510" font-family="'DM Sans', sans-serif" font-size="13" font-weight="400" fill="rgba(255,255,255,0.55)" text-anchor="middle">Issued by Unity Technologies</text>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+  <defs>
+    <linearGradient id="aiBrainGrad" x1="12" y1="8" x2="52" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1a9b8e"/>
+      <stop offset="1" stop-color="#0f6b66"/>
+    </linearGradient>
+  </defs>
+  <path d="M32 8c-7.2 0-12.5 4.2-14.6 10.1C14.2 16.4 10 19.8 10 25.2c0 3.2 1.4 6 3.6 8-1.1 1.6-1.8 3.5-1.8 5.6 0 5.4 4.1 9.5 9.5 10.4.9 4.3 4.7 7.5 9.3 7.5s8.4-3.2 9.3-7.5c5.4-.9 9.5-5 9.5-10.4 0-2.1-.7-4-1.8-5.6 2.2-2 3.6-4.8 3.6-8 0-5.4-4.2-8.8-7.4-7.1C44.5 12.2 39.2 8 32 8Z" stroke="url(#aiBrainGrad)" stroke-width="2.6" stroke-linejoin="round"/>
+  <path d="M22 28c2.5-4 6-6.5 10-6.5s7.5 2.5 10 6.5M20.5 36.5c3.2 2.8 7 4.2 11.5 4.2s8.3-1.4 11.5-4.2M32 21.5V48" stroke="#0f6b66" stroke-width="2.3" stroke-linecap="round"/>
+  <circle cx="24.5" cy="31.5" r="2.2" fill="#1a9b8e"/>
+  <circle cx="39.5" cy="31.5" r="2.2" fill="#1a9b8e"/>
+  <circle cx="32" cy="39.5" r="2.4" fill="#0f6b66"/>
+</svg>

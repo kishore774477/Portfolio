@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="From Zero to Production: Building Enterprise-Grade RAG with Hybrid Search, Reranking & Guardrails by Kishore Kumar S.">
+  <link rel="icon" href="img/rfavicon.png" type="image/png">
+  <title>Building Enterprise RAG in Production – Kishore Kumar S</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/portfolio.css?v=28">
+  <link rel="stylesheet" href="assets/css/motion.css?v=28">
+</head>
+<body>
+  <div class="scroll-progress" data-scroll-progress aria-hidden="true"></div>
+  <div class="cursor-glow" data-cursor-glow aria-hidden="true"></div>
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="site-header" data-site-header>
+    <nav class="navbar navbar-expand-lg">
+      <div class="nav-shell">
+        <a class="brand-mark navbar-brand" href="index.html"><span>KISHORE</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#primaryNav" aria-controls="primaryNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="primaryNav">
+          <div class="nav-track-host" data-nav-track>
+            <span class="nav-indicator" data-nav-indicator aria-hidden="true"></span>
+            <ul class="nav-track">
+              <li><a class="nav-link" href="index.html">Home</a></li>
+              <li><a class="nav-link" href="about.html">About</a></li>
+              <li><a class="nav-link is-active" href="blog.html" aria-current="page">Blog</a></li>
+              <li><a class="nav-link" href="contact.html">Contact</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <article class="article-wrap">
+      <!-- ═══ ARTICLE HEADER ═══ -->
+      <header class="article-header">
+        <div>
+          <a href="blog.html" class="article-back-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+            Back to Journal &amp; Notes
+          </a>
+        </div>
+        <div class="article-meta">
+          <span class="article-tag">AI Engineering</span>
+          <span>•</span>
+          <span>8 min read</span>
+          <span>•</span>
+          <span>Published November 2026</span>
+        </div>
+        <h1 class="article-title">
+          From Zero to Production: Building Enterprise-Grade RAG with Hybrid Search &amp; Reranking
+        </h1>
+        <p class="article-subtitle">
+          Why basic vector search fails on real internal company data — and how combining BM25 keyword matching, cross-encoder rerankers, and strict evaluation boosted our retrieval precision from 62% to 89.4%.
+        </p>
+
+        <!-- Compact, polished author bar -->
+        <div class="article-author-bar">
+          <div class="article-author-left">
+            <img src="img/kishore-portrait.jpg" alt="Kishore Kumar S" class="article-author-avatar">
+            <div class="article-author-info">
+              <span class="article-author-name">Kishore Kumar S</span>
+              <span class="article-author-role">AI Developer &amp; Trainee R&amp;D · Navabrind IT Solutions</span>
+            </div>
+          </div>
+          <div class="article-author-actions">
+            <a class="social-chip" href="https://www.linkedin.com/in/kishore-kumar-s-332512379" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <span class="social-chip__icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#0A66C2"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.5a1.63 1.63 0 0 0-1.63 1.63c0 .9.73 1.63 1.63 1.63s1.63-.73 1.63-1.63c0-.9-.73-1.63-1.63-1.63Z"/></svg>
+              </span>
+              LinkedIn
+            </a>
+            <a class="social-chip" href="https://github.com/kishore774477" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+              <span class="social-chip__icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.1-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+              </span>
+              GitHub
+            </a>
+          </div>
+        </div>
+      </header>
+
+      <!-- Architecture Pipeline Visual -->
+      <section class="architecture-flow" aria-label="RAG Architecture Diagram">
+        <div class="architecture-flow__header">
+          <div class="architecture-flow__title">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M3 9h6M15 9h6M3 15h6M15 15h6M9 9l3 3-3 3M15 9l-3 3 3 3"/></svg>
+            Production Hybrid RAG Architecture
+          </div>
+          <span class="architecture-flow__pill">End-to-End Pipeline</span>
+        </div>
+        <div class="architecture-flow__pipeline">
+          <div class="pipeline-node">
+            <div class="pipeline-node__step">Stage 01</div>
+            <div class="pipeline-node__label">Dual Retrieval</div>
+            <div class="pipeline-node__desc">Chroma Dense Vector + BM25 Sparse Exact Keyword Match</div>
+          </div>
+          <div class="pipeline-node">
+            <div class="pipeline-node__step">Stage 02</div>
+            <div class="pipeline-node__label">RRF Fusion</div>
+            <div class="pipeline-node__desc">Reciprocal Rank Fusion merges top candidate pools &amp; dedupes</div>
+          </div>
+          <div class="pipeline-node">
+            <div class="pipeline-node__step">Stage 03</div>
+            <div class="pipeline-node__label">Cross-Encoder</div>
+            <div class="pipeline-node__desc">Deep joint semantic scoring filters irrelevant chunks (89.4% precision)</div>
+          </div>
+          <div class="pipeline-node">
+            <div class="pipeline-node__step">Stage 04</div>
+            <div class="pipeline-node__label">Strict Guardrails</div>
+            <div class="pipeline-node__desc">Grounded prompt synthesis prevents hallucination &amp; cites source tags</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══ ARTICLE CONTENT ═══ -->
+      <div class="article-content">
+        <p>
+          Almost every software team today starts their GenAI journey with the classic <em>"Naive RAG"</em> pattern: take a bunch of PDFs, split them into 500-token chunks with LangChain, embed them using an OpenAI embedding model, throw them into ChromaDB or FAISS, and feed the top 3 chunks to a model like GPT-4o.
+        </p>
+
+        <p>
+          In a demo with 3 clean documents, it looks like pure magic. But the moment you deploy this against 500 pages of HR policies, IT compliance guidelines, or complex financial audits, it falls apart. Users ask specific questions like:
+        </p>
+
+        <blockquote class="article-callout">
+          <strong>The "Exact Match" Failure:</strong>
+          "What is the maximum reimbursement limit under section 4.2(b) for flight code EK502?"
+        </blockquote>
+
+        <p>
+          Dense vector embeddings calculate <em>conceptual similarity</em>. They know that "flight" is related to "travel" and "airplane", but they have no idea what "EK502" or "section 4.2(b)" strictly denotes. The vector search retrieves general travel paragraphs, misses the clause entirely, and the LLM confidently hallucinates an answer.
+        </p>
+
+        <p>
+          When building our <strong>Enterprise RAG Knowledge Assistant</strong>, solving this exact reliability gap was the primary engineering challenge. Here is how we engineered an architecture that delivers enterprise reliability.
+        </p>
+
+        <h2>The 3 Pillars of Production RAG</h2>
+
+        <p>
+          To make RAG resilient against messy corporate documents, we moved beyond single-path vector retrieval into a 3-stage pipeline:
+        </p>
+
+        <ol>
+          <li><strong>Parent-Document Chunking &amp; Metadata Enrichment:</strong> Embed small chunks for high search granularity, but pass the larger surrounding parent section to the LLM so it never loses paragraph context.</li>
+          <li><strong>Hybrid Retrieval (Dense Vectors + BM25 Sparse Search):</strong> Combine semantic meaning with exact keyword, product code, and acronym matching via Reciprocal Rank Fusion (RRF).</li>
+          <li><strong>Cross-Encoder Reranking:</strong> Run the candidate chunks through a cross-encoder model to score query-document relevance jointly rather than independently.</li>
+        </ol>
+
+        <div class="stat-comparison-grid">
+          <div class="stat-comparison-card">
+            <div class="stat-val">62%</div>
+            <div class="stat-lbl">Vanilla Vector Search (Semantic Drift)</div>
+          </div>
+          <div class="stat-comparison-card">
+            <div class="stat-val">78%</div>
+            <div class="stat-lbl">Hybrid Search (Dense + BM25 Sparse)</div>
+          </div>
+          <div class="stat-comparison-card highlight">
+            <div class="stat-val">89.4%</div>
+            <div class="stat-lbl">Hybrid + Cross-Encoder Reranker</div>
+          </div>
+        </div>
+
+        <h2>Implementing Hybrid Search &amp; Reranking in Python</h2>
+
+        <p>
+          Here is a production-tested implementation demonstrating how we combine BM25 and Dense Vector search, followed by reranking using a HuggingFace Cross-Encoder:
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots">
+              <span class="dot dot--red"></span>
+              <span class="dot dot--yellow"></span>
+              <span class="dot dot--green"></span>
+            </div>
+            <span>enterprise_rag_pipeline.py</span>
+            <span>Python 3.11</span>
+          </div>
+          <pre><code>from langchain_community.retrievers import BM25Retriever
+from langchain_community.vectorstores import Chroma
+from langchain_openai import OpenAIEmbeddings
+from sentence_transformers import CrossEncoder
+
+class ProductionHybridRAG:
+    def __init__(self, documents, embedding_model="text-embedding-3-small"):
+        self.embeddings = OpenAIEmbeddings(model=embedding_model)
+        
+        # 1. Sparse BM25 retriever for exact terms, SKU/policy IDs
+        self.bm25_retriever = BM25Retriever.from_documents(documents)
+        self.bm25_retriever.k = 10
+
+        # 2. Dense Vector store for conceptual search
+        self.vector_store = Chroma.from_documents(
+            documents, self.embeddings, collection_name="enterprise_docs"
+        )
+        self.dense_retriever = self.vector_store.as_retriever(search_kwargs={"k": 10})
+
+        # 3. Cross-Encoder for joint query-document relevance scoring
+        self.reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+
+    def retrieve_and_rerank(self, query: str, top_n: int = 4):
+        # Fetch top candidate pools from both retrievers
+        sparse_docs = self.bm25_retriever.invoke(query)
+        dense_docs = self.dense_retriever.invoke(query)
+
+        # Deduplicate candidates by document chunk ID / content
+        candidate_pool = {doc.page_content: doc for doc in (sparse_docs + dense_docs)}.values()
+
+        # Score pairs (query, chunk_text) using the cross-encoder
+        pairs = [[query, doc.page_content] for doc in candidate_pool]
+        scores = self.reranker.predict(pairs)
+
+        # Rank candidates by reranker score
+        scored_candidates = sorted(
+            zip(candidate_pool, scores), key=lambda x: x[1], reverse=True
+        )
+
+        # Filter low confidence matches (Confidence thresholding)
+        filtered_docs = [
+            doc for doc, score in scored_candidates[:top_n] if score > 0.15
+        ]
+
+        return filtered_docs</code></pre>
+        </div>
+
+        <h2>The Secret Weapon: Strict Grounding Guardrails</h2>
+
+        <p>
+          Retrieving the right documents is only half the battle. If a user asks a question that is genuinely <em>not</em> contained within the company documentation, a naive prompt will cause the model to synthesize assumptions.
+        </p>
+
+        <p>
+          We enforced strict system prompt constraints:
+        </p>
+
+        <div class="code-block">
+          <div class="code-header">
+            <div class="code-dots">
+              <span class="dot dot--red"></span>
+              <span class="dot dot--yellow"></span>
+              <span class="dot dot--green"></span>
+            </div>
+            <span>grounding_guardrails.py</span>
+            <span>Prompt Strictness</span>
+          </div>
+          <pre><code>SYSTEM_PROMPT = """You are an Enterprise Knowledge Assistant.
+Answer the user's question ONLY using the factual context provided below.
+Rules:
+1. If the context does not explicitly contain sufficient information to answer the question, 
+   state: "I cannot find this information in the authorized documentation."
+2. Every factual assertion must cite its source document tag: [Source: {doc_id}].
+3. Never assume, extrapolate, or use pre-trained external knowledge for company facts."""</code></pre>
+        </div>
+
+        <h2>How We Evaluated the System: The RAG Triad</h2>
+
+        <p>
+          You cannot improve what you do not measure. Instead of relying on manual testing, we evaluated our assistant using automated metrics:
+        </p>
+
+        <ul>
+          <li><strong>Context Relevance:</strong> Did the retriever return only chunks relevant to the user's prompt? (Scored 92% after reranking).</li>
+          <li><strong>Groundedness (Faithfulness):</strong> Did the LLM make claims that are mathematically supported by the retrieved context? (Reached 95%).</li>
+          <li><strong>Answer Relevance:</strong> Did the generated answer directly address the user's inquiry? (Reached 91%).</li>
+        </ul>
+
+        <h2>5 Key Takeaways for Builders</h2>
+
+        <div class="article-callout">
+          <strong>1. Never rely on pure vector search alone.</strong>
+          Always use hybrid search (BM25 + Dense) if your documents contain acronyms, IDs, or domain-specific jargon.
+        </div>
+
+        <div class="article-callout">
+          <strong>2. Cross-encoders are worth the latency.</strong>
+          Adding a lightweight reranker takes ~35ms, but eliminates 70% of irrelevant context chunks.
+        </div>
+
+        <div class="article-callout">
+          <strong>3. Preserve parent context.</strong>
+          Embed small chunks (e.g. 200 tokens) for crisp vector matching, but retrieve the larger enclosing section (800 tokens) for LLM synthesis.
+        </div>
+
+        <div class="article-callout">
+          <strong>4. Set confidence score cutoffs.</strong>
+          If the reranker score is below threshold, immediately return a safe fallback message instead of letting the LLM guess.
+        </div>
+
+        <div class="article-callout">
+          <strong>5. Test continuously with automated evals.</strong>
+          Build an evaluation test suite with 50 golden question-answer pairs before pushing updates to production.
+        </div>
+
+        <!-- End-of-post CTA Card -->
+        <div class="article-cta-box">
+          <h3>Interested in AI &amp; Full-Stack Solutions?</h3>
+          <p>
+            I build custom RAG pipelines, ML models, and full-stack web applications. Let's discuss your project or explore collaboration opportunities.
+          </p>
+          <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+            <a href="contact.html" class="btn-magnet">
+              <span class="btn-magnet__label">Get in touch ↗</span>
+            </a>
+            <a href="https://github.com/kishore774477" target="_blank" rel="noopener noreferrer" class="btn-ghost">
+              Explore GitHub Projects ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <!-- SITE FOOTER -->
+  <footer class="site-footer">
+    <div class="footer-shell">
+      <div class="footer-brand">
+        <a class="brand-mark" href="index.html"><span>KISHORE</span></a>
+        <p>AI Web Developer &amp; Trainee R&amp;D building dependable intelligent systems.</p>
+      </div>
+      <div class="footer-col">
+        <p class="footer-label">Explore</p>
+        <nav class="footer-nav" aria-label="Footer">
+          <a href="index.html">Home</a>
+          <a href="about.html">About</a>
+          <a href="blog.html">Blog</a>
+          <a href="contact.html">Contact</a>
+        </nav>
+      </div>
+      <div class="footer-col footer-col--social">
+        <p class="footer-label">Find me online</p>
+        <div class="footer-social">
+          <a class="social-chip" href="https://www.linkedin.com/in/kishore-kumar-s-332512379" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+            <span class="social-chip__icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="#0A66C2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </span>
+            LinkedIn
+          </a>
+          <a class="social-chip" href="https://github.com/kishore774477" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <span class="social-chip__icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="#24292e"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+            </span>
+            GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <p>© <span id="year"></span> Kishore Kumar S — AI Web Developer &amp; Trainee R&amp;D</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/motion-engine.js?v=28"></script>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

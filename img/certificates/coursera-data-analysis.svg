@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="bg_cour" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0056d2"/>
+      <stop offset="100%" stop-color="#002f7a"/>
+    </linearGradient>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="600" fill="url(#bg_cour)"/>
+  <rect width="800" height="600" fill="url(#grid)"/>
+  
+  <rect x="30" y="30" width="740" height="540" rx="20" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="2"/>
+  
+  <g transform="translate(50, 45)">
+    <rect x="0" y="0" width="180" height="32" rx="16" fill="rgba(255,255,255,0.12)"/>
+    <text x="90" y="21" font-family="'IBM Plex Mono', monospace, sans-serif" font-size="11" font-weight="600" fill="#ffffff" text-anchor="middle" letter-spacing="1.5">COURSERA VERIFIED</text>
+  </g>
+  
+  <g transform="translate(60, 40)">
+    <path d="M340 210c-35 0-65 25-65 60s30 60 65 60c25 0 45-12 55-30l-20-12c-7 12-20 20-35 20-22 0-40-16-40-38s18-38 40-38c15 0 28 8 35 20l20-12c-10-18-30-30-55-30z" fill="#ffffff"/>
+  </g>
+  
+  <text x="400" y="375" font-family="'Sora', 'DM Sans', sans-serif" font-size="34" font-weight="700" fill="#ffffff" text-anchor="middle">Data Analysis using Excel</text>
+  <text x="400" y="415" font-family="'DM Sans', sans-serif" font-size="18" font-weight="400" fill="rgba(255,255,255,0.78)" text-anchor="middle">Spreadsheets, Modeling &amp; Analytics</text>
+  
+  <line x1="280" y1="445" x2="520" y2="445" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+  
+  <text x="400" y="480" font-family="'IBM Plex Mono', monospace, sans-serif" font-size="14" font-weight="500" fill="#ffffff" text-anchor="middle" letter-spacing="2">KISHORE KUMAR S</text>
+  <text x="400" y="510" font-family="'DM Sans', sans-serif" font-size="13" font-weight="400" fill="rgba(255,255,255,0.55)" text-anchor="middle">Issued by Coursera</text>
+</svg>
