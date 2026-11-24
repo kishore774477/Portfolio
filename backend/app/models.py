@@ -15,3 +15,16 @@ class ContactMessage(Base):
     message = Column(Text, nullable=False)
     email_sent = Column(Integer, default=0, nullable=False)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+
+class Article(Base):
+    __tablename__ = "articles"
+
+    id = Column(Integer, primary_key=True, index=True)
+    title = Column(String(300), nullable=False)
+    tag = Column(String(120), nullable=False)
+    read_time = Column(String(60), nullable=False)
+    excerpt = Column(Text, nullable=False)
+    content = Column(Text, nullable=False)
+    stack = Column(String(400), default="", nullable=False)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))

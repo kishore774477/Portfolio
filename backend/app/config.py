@@ -1,7 +1,24 @@
 import os
+import secrets
 from pathlib import Path
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+_ADMIN_TOKEN_FILE = BASE_DIR / ".admin_token"
+
+
+def _load_admin_token() -> str:
+    env_token = os.getenv("ADMIN_TOKEN", "").strip()
+    if env_token:
+        return env_token
+    if _ADMIN_TOKEN_FILE.exists():
+        return _ADMIN_TOKEN_FILE.read_text(encoding="utf-8").strip()
+    token = secrets.token_urlsafe(24)
+    _ADMIN_TOKEN_FILE.write_text(token, encoding="utf-8")
+    return token
+
+
+ADMIN_TOKEN = _load_admin_token()
 
 DATABASE_URL = os.getenv("DATABASE_URL", f"sqlite:///{BASE_DIR / 'contact.db'}")
 

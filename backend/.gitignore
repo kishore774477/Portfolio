@@ -3,3 +3,4 @@ __pycache__/
 *.pyc
 contact.db
 .env
+.admin_token

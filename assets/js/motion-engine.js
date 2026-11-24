@@ -7,6 +7,10 @@
 
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  // Self-hosted FastAPI backend (see /backend). Override before this script
+  // loads with: <script>window.PORTFOLIO_API_BASE = "https://your-api.onrender.com";</script>
+  var API_BASE = window.PORTFOLIO_API_BASE || "http://localhost:8220";
+
   function ready(fn) {
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", fn, { once: true });
@@ -481,10 +485,6 @@
     var status = document.getElementById('contactStatus');
     if (!form) return;
 
-    // Self-hosted FastAPI backend (see /backend). Override before this script
-    // loads with: <script>window.PORTFOLIO_API_BASE = "https://your-api.onrender.com";</script>
-    var API_BASE = window.PORTFOLIO_API_BASE || 'http://localhost:8220';
-
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var btn = form.querySelector('button[type="submit"]');
@@ -578,6 +578,161 @@
     });
   }
 
+  function initArticles() {
+    var grid = document.querySelector("[data-articles-grid]");
+    var section = document.getElementById("allArticlesSection");
+    var addForm = document.getElementById("addArticleForm");
+    var addStatus = document.getElementById("addArticleStatus");
+    var detailModalEl = document.getElementById("articleDetailModal");
+    if (!grid && !addForm) return;
+
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, function (c) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+      });
+    }
+
+    function showDetail(article) {
+      if (!detailModalEl || typeof bootstrap === "undefined") return;
+      document.getElementById("articleDetailTitle").textContent = article.title;
+      document.getElementById("articleDetailMeta").textContent = article.tag + " · " + article.read_time;
+      document.getElementById("articleDetailBody").textContent = article.content;
+      bootstrap.Modal.getOrCreateInstance(detailModalEl).show();
+    }
+
+    function renderCard(article) {
+      var card = document.createElement("article");
+      card.className = "project-card p-4";
+      var pills = (article.stack || [])
+        .map(function (s) {
+          return '<span class="project-card__pill">' + escapeHtml(s) + "</span>";
+        })
+        .join("");
+      var dateLabel = new Date(article.created_at).toLocaleDateString(undefined, {
+        year: "numeric",
+        month: "long",
+      });
+
+      card.innerHTML =
+        '<div class="d-flex justify-content-between align-items-center mb-3">' +
+        '<span class="project-card__tag">' + escapeHtml(article.tag) + "</span>" +
+        '<span class="text-muted font-monospace" style="font-size:0.85rem;">' +
+        escapeHtml(dateLabel) + " · " + escapeHtml(article.read_time) + "</span>" +
+        "</div>" +
+        '<h3 class="project-card__title" style="font-size:1.4rem;">' + escapeHtml(article.title) + "</h3>" +
+        '<p class="project-card__desc">' + escapeHtml(article.excerpt) + "</p>" +
+        (pills ? '<div class="project-card__stack mb-3">' + pills + "</div>" : "") +
+        '<button type="button" class="btn-ghost" data-article-read>Read article ↗</button>';
+
+      card.querySelector("[data-article-read]").addEventListener("click", function () {
+        showDetail(article);
+      });
+      return card;
+    }
+
+    function loadArticles() {
+      if (!grid) return;
+      fetch(API_BASE + "/api/articles")
+        .then(function (res) {
+          if (!res.ok) throw new Error("failed");
+          return res.json();
+        })
+        .then(function (articles) {
+          grid.innerHTML = "";
+          articles.forEach(function (article) {
+            grid.appendChild(renderCard(article));
+          });
+          if (section) section.style.display = articles.length ? "" : "none";
+        })
+        .catch(function () {
+          if (section) section.style.display = "none";
+        });
+    }
+
+    if (addForm) {
+      addForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var btn = addForm.querySelector('button[type="submit"]');
+        var originalLabel = btn ? btn.innerHTML : "";
+        var token = document.getElementById("articleAdminToken").value;
+        var payload = {
+          title: document.getElementById("articleTitle").value.trim(),
+          tag: document.getElementById("articleTag").value.trim(),
+          read_time: document.getElementById("articleReadTime").value.trim(),
+          excerpt: document.getElementById("articleExcerpt").value.trim(),
+          content: document.getElementById("articleContent").value.trim(),
+          stack: document
+            .getElementById("articleStack")
+            .value.split(",")
+            .map(function (s) { return s.trim(); })
+            .filter(Boolean),
+        };
+
+        if (!payload.title || !payload.tag || !payload.read_time || !payload.excerpt || !payload.content) {
+          if (addStatus) {
+            addStatus.className = "contact-status-banner is-error";
+            addStatus.style.display = "";
+            addStatus.innerHTML = "<strong>Please fill all required fields.</strong>";
+          }
+          return;
+        }
+
+        if (btn) {
+          btn.disabled = true;
+          btn.innerHTML = "Publishing...";
+        }
+
+        fetch(API_BASE + "/api/articles", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Admin-Token": token },
+          body: JSON.stringify(payload),
+        })
+          .then(function (res) {
+            if (res.status === 401) throw new Error("unauthorized");
+            if (!res.ok) throw new Error("failed");
+            return res.json();
+          })
+          .then(function (article) {
+            if (btn) {
+              btn.disabled = false;
+              btn.innerHTML = originalLabel;
+            }
+            addForm.reset();
+            if (addStatus) {
+              addStatus.className = "contact-status-banner is-success";
+              addStatus.style.display = "";
+              addStatus.innerHTML = "<strong>Article published.</strong>";
+            }
+            if (grid) {
+              grid.insertBefore(renderCard(article), grid.firstChild);
+              if (section) section.style.display = "";
+            }
+            var modalEl = addForm.closest(".modal");
+            if (modalEl && typeof bootstrap !== "undefined") {
+              var inst = bootstrap.Modal.getInstance(modalEl);
+              if (inst) setTimeout(function () { inst.hide(); }, 700);
+            }
+          })
+          .catch(function (err) {
+            if (btn) {
+              btn.disabled = false;
+              btn.innerHTML = originalLabel;
+            }
+            if (addStatus) {
+              addStatus.className = "contact-status-banner is-error";
+              addStatus.style.display = "";
+              addStatus.innerHTML =
+                err.message === "unauthorized"
+                  ? "<strong>Invalid admin token.</strong>"
+                  : "<strong>Could not reach the backend.</strong> Make sure it is running (see backend/README.md).";
+            }
+          });
+      });
+    }
+
+    loadArticles();
+  }
+
   ready(function () {
     initHeader();
     initScrollProgress();
@@ -594,5 +749,6 @@
     initCertModal();
     initPortraitTilt();
     initContactForm();
+    initArticles();
   });
 })();

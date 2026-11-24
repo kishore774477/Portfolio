@@ -268,12 +268,13 @@
 }
 
 main {
-  animation: page-in 700ms var(--motion-ease) both;
+  /* No fill-mode: holding the transform keyframe breaks position:fixed children (e.g. the cert modal). */
+  animation: page-in 700ms var(--motion-ease);
 }
 
 @keyframes page-in {
   from { opacity: 0; transform: translate3d(0, 10px, 0); }
-  to { opacity: 1; transform: translate3d(0, 0, 0); }
+  to { opacity: 1; transform: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
