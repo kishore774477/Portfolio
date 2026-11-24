@@ -481,6 +481,10 @@
     var status = document.getElementById('contactStatus');
     if (!form) return;
 
+    // Self-hosted FastAPI backend (see /backend). Override before this script
+    // loads with: <script>window.PORTFOLIO_API_BASE = "https://your-api.onrender.com";</script>
+    var API_BASE = window.PORTFOLIO_API_BASE || 'http://localhost:8220';
+
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var btn = form.querySelector('button[type="submit"]');
@@ -504,38 +508,14 @@
         btn.innerHTML = '<span class="btn-magnet__label">Sending...</span>';
       }
 
-      // Try FormSubmit AJAX
-      fetch('https://formsubmit.co/ajax/kishore774477@gmail.com', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-          name: name,
-          email: email,
-          _subject: '[Portfolio Message] ' + subject,
-          message: message
-        })
-      })
-      .then(function (res) { return res.json(); })
-      .then(function (data) {
+      function finish() {
         if (btn) {
           btn.disabled = false;
           btn.innerHTML = originalText;
         }
-        form.reset();
-        if (status) {
-          status.className = 'contact-status-banner is-success';
-          status.innerHTML = '<strong>Message sent successfully!</strong> Thank you for reaching out, Kishore will respond shortly.<br><small>If you prefer direct email, you can also write to <a href="mailto:kishore774477@gmail.com">kishore774477@gmail.com</a>.</small>';
-        }
-      })
-      .catch(function (err) {
-        // Fallback to Gmail compose / mailto
-        if (btn) {
-          btn.disabled = false;
-          btn.innerHTML = originalText;
-        }
+      }
+
+      function showFallback() {
         var mailtoUrl = 'mailto:kishore774477@gmail.com?subject=' + encodeURIComponent('[Portfolio] ' + subject) + '&body=' + encodeURIComponent("Hi Kishore,\n\n" + message + "\n\nFrom: " + name + " (" + email + ")");
         var gmailUrl = 'https://mail.google.com/mail/?view=cm&fs=1&to=kishore774477@gmail.com&su=' + encodeURIComponent('[Portfolio] ' + subject) + '&body=' + encodeURIComponent("Hi Kishore,\n\n" + message + "\n\nFrom: " + name + " (" + email + ")");
 
@@ -543,6 +523,57 @@
           status.className = 'contact-status-banner is-success';
           status.innerHTML = '<strong>Ready to deliver!</strong> Click to send directly via: <a href="' + gmailUrl + '" target="_blank" class="btn btn-sm btn-outline-dark ms-2">Open Gmail</a> or <a href="' + mailtoUrl + '" class="btn btn-sm btn-outline-secondary ms-1">Email Client</a>';
         }
+      }
+
+      // Primary: self-hosted FastAPI backend (see /backend).
+      fetch(API_BASE + '/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({ name: name, email: email, subject: subject, message: message })
+      })
+      .then(function (res) {
+        if (!res.ok) throw new Error('backend unavailable');
+        return res.json();
+      })
+      .then(function () {
+        finish();
+        form.reset();
+        if (status) {
+          status.className = 'contact-status-banner is-success';
+          status.innerHTML = '<strong>Message sent successfully!</strong> Thank you for reaching out, Kishore will respond shortly.<br><small>If you prefer direct email, you can also write to <a href="mailto:kishore774477@gmail.com">kishore774477@gmail.com</a>.</small>';
+        }
+      })
+      .catch(function () {
+        // Backend unreachable: try FormSubmit AJAX as a secondary path.
+        fetch('https://formsubmit.co/ajax/kishore774477@gmail.com', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            name: name,
+            email: email,
+            _subject: '[Portfolio Message] ' + subject,
+            message: message
+          })
+        })
+        .then(function (res) { return res.json(); })
+        .then(function () {
+          finish();
+          form.reset();
+          if (status) {
+            status.className = 'contact-status-banner is-success';
+            status.innerHTML = '<strong>Message sent successfully!</strong> Thank you for reaching out, Kishore will respond shortly.<br><small>If you prefer direct email, you can also write to <a href="mailto:kishore774477@gmail.com">kishore774477@gmail.com</a>.</small>';
+          }
+        })
+        .catch(function () {
+          finish();
+          showFallback();
+        });
       });
     });
   }
